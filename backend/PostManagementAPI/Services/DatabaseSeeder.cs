@@ -22,63 +22,113 @@ namespace PostManagementAPI.Services
                 // Ensure database is created
                 await _context.Database.MigrateAsync();
 
-                // Check if we already have posts
-                if (await _context.Posts.AnyAsync())
+                // Check if we already have movies
+                if (await _context.Movies.AnyAsync())
                 {
-                    _logger.LogInformation("Database already contains posts. Skipping seed.");
+                    _logger.LogInformation("Database already contains movies. Skipping seed.");
                     return;
                 }
 
-                _logger.LogInformation("Seeding database with sample posts...");
+                _logger.LogInformation("Seeding database with sample movies...");
 
-                var samplePosts = new List<Post>
+                var sampleMovies = new List<Movie>
                 {
-                    new Post
+                    new Movie
                     {
-                        Name = "Beautiful Mountain Landscape",
-                        Description = "A breathtaking view of snow-capped mountains during golden hour. The peaks are illuminated by the setting sun, creating a stunning contrast against the deep blue sky.",
-                        Image = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+                        Title = "The Shawshank Redemption",
+                        Genre = "Drama",
+                        Rating = 5,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1536440136628-849c177e76a1",
                         CreatedAt = DateTime.UtcNow.AddDays(-10),
                         UpdatedAt = DateTime.UtcNow.AddDays(-10)
                     },
-                    new Post
+                    new Movie
                     {
-                        Name = "Ocean Waves at Sunset",
-                        Description = "Powerful ocean waves crashing against the shore as the sun sets on the horizon. The golden light reflects beautifully on the water surface, creating a mesmerizing scene.",
-                        Image = "https://images.unsplash.com/photo-1505142468610-359e7d316be0",
+                        Title = "The Dark Knight",
+                        Genre = "Action",
+                        Rating = 5,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1509347528160-9a9e33742cdb",
+                        CreatedAt = DateTime.UtcNow.AddDays(-9),
+                        UpdatedAt = DateTime.UtcNow.AddDays(-9)
+                    },
+                    new Movie
+                    {
+                        Title = "Inception",
+                        Genre = "Sci-Fi",
+                        Rating = 5,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1440404653325-ab127d49abc1",
                         CreatedAt = DateTime.UtcNow.AddDays(-8),
                         UpdatedAt = DateTime.UtcNow.AddDays(-8)
                     },
-                    new Post
+                    new Movie
                     {
-                        Name = "Autumn Forest Path",
-                        Description = "A winding path through a dense forest in autumn. The trees are ablaze with vibrant reds, oranges, and yellows, creating a magical woodland atmosphere perfect for a peaceful walk.",
-                        Image = "https://images.unsplash.com/photo-1511497584788-876760111969",
+                        Title = "Pulp Fiction",
+                        Genre = "Crime",
+                        Rating = 5,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1478720568477-152d9b164e26",
+                        CreatedAt = DateTime.UtcNow.AddDays(-7),
+                        UpdatedAt = DateTime.UtcNow.AddDays(-7)
+                    },
+                    new Movie
+                    {
+                        Title = "Forrest Gump",
+                        Genre = "Drama",
+                        Rating = 5,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1485846234645-a62644f84728",
+                        CreatedAt = DateTime.UtcNow.AddDays(-6),
+                        UpdatedAt = DateTime.UtcNow.AddDays(-6)
+                    },
+                    new Movie
+                    {
+                        Title = "The Matrix",
+                        Genre = "Sci-Fi",
+                        Rating = 4,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1534447677768-be436bb09401",
                         CreatedAt = DateTime.UtcNow.AddDays(-5),
                         UpdatedAt = DateTime.UtcNow.AddDays(-5)
                     },
-                    new Post
+                    new Movie
                     {
-                        Name = "City Skyline at Night",
-                        Description = "A modern city skyline illuminated at night with thousands of lights from buildings and streets. The urban landscape creates a stunning display of human achievement and architectural beauty.",
-                        Image = "https://images.unsplash.com/photo-1514565131-fce0801e5785",
+                        Title = "Goodfellas",
+                        Genre = "Crime",
+                        Rating = 4,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1594908900066-3f47337549d8",
+                        CreatedAt = DateTime.UtcNow.AddDays(-4),
+                        UpdatedAt = DateTime.UtcNow.AddDays(-4)
+                    },
+                    new Movie
+                    {
+                        Title = "The Avengers",
+                        Genre = "Action",
+                        Rating = 4,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0",
                         CreatedAt = DateTime.UtcNow.AddDays(-3),
                         UpdatedAt = DateTime.UtcNow.AddDays(-3)
                     },
-                    new Post
+                    new Movie
                     {
-                        Name = "Desert Sand Dunes",
-                        Description = "Majestic sand dunes stretching as far as the eye can see in the desert. The smooth curves and ripples in the sand create beautiful patterns, highlighted by the warm desert sunlight.",
-                        Image = "https://images.unsplash.com/photo-1509316785289-025f5b846b35",
+                        Title = "The Hangover",
+                        Genre = "Comedy",
+                        Rating = 4,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba",
+                        CreatedAt = DateTime.UtcNow.AddDays(-2),
+                        UpdatedAt = DateTime.UtcNow.AddDays(-2)
+                    },
+                    new Movie
+                    {
+                        Title = "Titanic",
+                        Genre = "Romance",
+                        Rating = 4,
+                        PosterImageUrl = "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c",
                         CreatedAt = DateTime.UtcNow.AddDays(-1),
                         UpdatedAt = DateTime.UtcNow.AddDays(-1)
                     }
                 };
 
-                await _context.Posts.AddRangeAsync(samplePosts);
+                await _context.Movies.AddRangeAsync(sampleMovies);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation($"Successfully seeded {samplePosts.Count} posts to the database.");
+                _logger.LogInformation($"Successfully seeded {sampleMovies.Count} movies to the database.");
             }
             catch (Exception ex)
             {

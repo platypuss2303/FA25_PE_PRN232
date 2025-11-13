@@ -9,38 +9,38 @@ const api = axios.create({
   },
 });
 
-export const postService = {
-  // Get all posts with optional search, sort, and pagination
+export const movieService = {
+  // Get all movies with optional search, filter, sort, and pagination
   getAll: (params = {}) => {
-    return api.get("/posts", { params });
+    return api.get("/movies", { params });
   },
 
-  // Get single post by ID
+  // Get single movie by ID
   getById: (id) => {
-    return api.get(`/posts/${id}`);
+    return api.get(`/movies/${id}`);
   },
 
-  // Create new post (multipart/form-data)
+  // Create new movie (multipart/form-data)
   create: (formData) => {
-    return api.post("/posts", formData, {
+    return api.post("/movies", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
   },
 
-  // Update post (multipart/form-data)
+  // Update movie (multipart/form-data)
   update: (id, formData) => {
-    return api.put(`/posts/${id}`, formData, {
+    return api.put(`/movies/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
   },
 
-  // Delete post
+  // Delete movie
   delete: (id) => {
-    return api.delete(`/posts/${id}`);
+    return api.delete(`/movies/${id}`);
   },
 };
 

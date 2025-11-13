@@ -10,19 +10,20 @@ namespace PostManagementAPI.Data
         {
         }
 
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<Movie> Movies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure Post entity
-            modelBuilder.Entity<Post>(entity =>
+            // Configure Movie entity
+            modelBuilder.Entity<Movie>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
-                entity.Property(e => e.Description).IsRequired();
-                entity.Property(e => e.Image).HasMaxLength(500);
+                entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Genre).HasMaxLength(100);
+                entity.Property(e => e.Rating).HasMaxLength(5);
+                entity.Property(e => e.PosterImageUrl).HasMaxLength(500);
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
                 entity.Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });

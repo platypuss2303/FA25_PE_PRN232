@@ -1,28 +1,28 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { postService } from '../services/api'
-import PostForm from '../components/PostForm'
+import { movieService } from '../services/api'
+import MovieForm from '../components/MovieForm'
 import Toast from '../components/Toast'
 
 export default function EditPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const [post, setPost] = useState(null)
+  const [movie, setMovie] = useState(null)
   const [error, setError] = useState(null)
   const [validationErrors, setValidationErrors] = useState({})
   const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState(null)
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchMovie = async () => {
       try {
-        const response = await postService.getById(id)
-        setPost(response.data)
+        const response = await movieService.getById(id)
+        setMovie(response.data)
       } catch (err) {
         setError(err.message)
       }
     }
-    fetchPost()
+    fetchMovie()
   }, [id])
 
   const handleSubmit = async (formData) => {
@@ -30,8 +30,8 @@ export default function EditPage() {
       setLoading(true)
       setError(null)
       setValidationErrors({})
-      await postService.update(id, formData)
-      setToast({ message: 'Post updated successfully!', type: 'success' })
+      await movieService.update(id, formData)
+      setToast({ message: 'Movie updated successfully!', type: 'success' })
       setTimeout(() => {
         navigate('/')
       }, 1000)
@@ -48,11 +48,11 @@ export default function EditPage() {
     }
   }
 
-  if (!post) {
+  if (!movie) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
         <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
-        <p className="mt-4 text-gray-600 font-medium">Loading post data...</p>
+        <p className="mt-4 text-gray-600 font-medium">Loading movie data...</p>
       </div>
     )
   }
@@ -65,9 +65,9 @@ export default function EditPage() {
           <span className="text-3xl">✏️</span>
         </div>
         <h1 className="text-4xl font-bold text-gray-900 mb-2">
-          Edit <span className="text-gradient">Post</span>
+          Edit <span className="text-gradient">Movie</span>
         </h1>
-        <p className="text-gray-600">Update your content and make it even better</p>
+        <p className="text-gray-600">Update movie details</p>
       </div>
       
       {error && (
@@ -82,8 +82,8 @@ export default function EditPage() {
         </div>
       )}
 
-      <PostForm 
-        initialData={post} 
+      <MovieForm 
+        initialData={movie} 
         onSubmit={handleSubmit} 
         loading={loading}
         isEdit={true}

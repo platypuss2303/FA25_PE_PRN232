@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { postService } from '../services/api'
-import PostForm from '../components/PostForm'
+import { movieService } from '../services/api'
+import MovieForm from '../components/MovieForm'
 import Toast from '../components/Toast'
 
 export default function CreatePage() {
@@ -16,8 +16,8 @@ export default function CreatePage() {
       setLoading(true)
       setError(null)
       setValidationErrors({})
-      await postService.create(formData)
-      setToast({ message: 'Post created successfully!', type: 'success' })
+      await movieService.create(formData)
+      setToast({ message: 'Movie created successfully!', type: 'success' })
       setTimeout(() => {
         navigate('/')
       }, 1000)
@@ -39,12 +39,12 @@ export default function CreatePage() {
       {/* Header */}
       <div className="mb-8 text-center">
         <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl mb-4">
-          <span className="text-3xl">✨</span>
+          <span className="text-3xl">🎬</span>
         </div>
         <h1 className="text-4xl font-bold text-gray-900 mb-2">
-          Create New <span className="text-gradient">Post</span>
+          Add New <span className="text-gradient">Movie</span>
         </h1>
-        <p className="text-gray-600">Share your amazing content with the world</p>
+        <p className="text-gray-600">Add a movie to your collection</p>
       </div>
       
       {error && (
@@ -59,7 +59,7 @@ export default function CreatePage() {
         </div>
       )}
 
-      <PostForm 
+      <MovieForm 
         onSubmit={handleSubmit} 
         loading={loading}
         validationErrors={validationErrors}
