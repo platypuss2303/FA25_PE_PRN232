@@ -45,7 +45,7 @@ function App() {
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-gradient">
-                    Post Manager
+                    Movie Manager
                   </h1>
                   <p className="text-xs text-gray-500">Modern & Simple</p>
                 </div>
@@ -54,7 +54,7 @@ function App() {
               {/* Navigation Links */}
               <div className="flex items-center gap-2">
                 <NavLink to="/" icon={<Home size={18} />}>
-                  All Posts
+                  All Movies
                 </NavLink>
                 <NavLink to="/create" icon={<PlusCircle size={18} />}>
                   Create New

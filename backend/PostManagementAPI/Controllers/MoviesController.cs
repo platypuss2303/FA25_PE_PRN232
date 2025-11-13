@@ -144,12 +144,12 @@ namespace PostManagementAPI.Controllers
         }
 
         /// <summary>
-        /// POST /api/movies - Create a new movie (supports both JSON and multipart/form-data)
+        /// POST /api/movies - Create a new movie with file upload (multipart/form-data)
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(MovieResponseDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Consumes("application/json", "multipart/form-data")]
+        [Consumes("multipart/form-data")]
         public async Task<ActionResult<MovieResponseDto>> CreateMovie([FromForm] CreateMovieWithFileDto dto)
         {
             if (!ModelState.IsValid)
@@ -211,13 +211,62 @@ namespace PostManagementAPI.Controllers
         }
 
         /// <summary>
-        /// PUT /api/movies/{id} - Update an existing movie (supports both JSON and multipart/form-data)
+        /// POST /api/movies/json - Create a new movie with JSON (no file upload)
+        /// </summary>
+        [HttpPost("json")]
+        [ProducesResponseType(typeof(MovieResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Consumes("application/json")]
+        public async Task<ActionResult<MovieResponseDto>> CreateMovieJson([FromBody] CreateMovieDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var movie = new Movie
+                {
+                    Title = dto.Title,
+                    Genre = dto.Genre,
+                    Rating = dto.Rating,
+                    PosterImageUrl = dto.PosterImageUrl,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                };
+
+                _context.Movies.Add(movie);
+                await _context.SaveChangesAsync();
+
+                var response = new MovieResponseDto
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    Genre = movie.Genre,
+                    Rating = movie.Rating,
+                    PosterImageUrl = movie.PosterImageUrl,
+                    CreatedAt = movie.CreatedAt,
+                    UpdatedAt = movie.UpdatedAt
+                };
+
+                return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating movie");
+                return StatusCode(500, new { message = "An error occurred while creating the movie" });
+            }
+        }
+
+        /// <summary>
+        /// PUT /api/movies/{id} - Update an existing movie with file upload (multipart/form-data)
         /// </summary>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(MovieResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Consumes("application/json", "multipart/form-data")]
+        [Consumes("multipart/form-data")]
         public async Task<ActionResult<MovieResponseDto>> UpdateMovie(int id, [FromForm] UpdateMovieWithFileDto dto)
         {
             if (!ModelState.IsValid)
@@ -253,6 +302,64 @@ namespace PostManagementAPI.Controllers
                 movie.Title = dto.Title;
                 movie.Genre = dto.Genre;
                 movie.Rating = dto.Rating;
+                movie.UpdatedAt = DateTime.UtcNow;
+
+                _context.Movies.Update(movie);
+                await _context.SaveChangesAsync();
+
+                var response = new MovieResponseDto
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    Genre = movie.Genre,
+                    Rating = movie.Rating,
+                    PosterImageUrl = movie.PosterImageUrl,
+                    CreatedAt = movie.CreatedAt,
+                    UpdatedAt = movie.UpdatedAt
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating movie {MovieId}", id);
+                return StatusCode(500, new { message = "An error occurred while updating the movie" });
+            }
+        }
+
+        /// <summary>
+        /// PUT /api/movies/{id}/json - Update an existing movie with JSON (no file upload)
+        /// </summary>
+        [HttpPut("{id}/json")]
+        [ProducesResponseType(typeof(MovieResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Consumes("application/json")]
+        public async Task<ActionResult<MovieResponseDto>> UpdateMovieJson(int id, [FromBody] UpdateMovieDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var movie = await _context.Movies.FindAsync(id);
+
+                if (movie == null)
+                {
+                    return NotFound(new { message = $"Movie with ID {id} not found" });
+                }
+
+                movie.Title = dto.Title;
+                movie.Genre = dto.Genre;
+                movie.Rating = dto.Rating;
+                
+                if (!string.IsNullOrWhiteSpace(dto.PosterImageUrl))
+                {
+                    movie.PosterImageUrl = dto.PosterImageUrl;
+                }
+
                 movie.UpdatedAt = DateTime.UtcNow;
 
                 _context.Movies.Update(movie);
