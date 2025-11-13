@@ -10,7 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsProduction())
 {
     var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
+    Console.WriteLine($"🔧 Binding to port: {port}");
     builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
+else
+{
+    // Development configuration
+    builder.WebHost.UseUrls("http://localhost:5201");
 }
 
 // Add services to the container.
@@ -65,6 +71,8 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 Console.WriteLine("✅ CORS configured: AllowAnyOrigin enabled for Vercel");
+Console.WriteLine($"🌍 Environment: {app.Environment.EnvironmentName}");
+Console.WriteLine($"🔌 PORT env var: {Environment.GetEnvironmentVariable("PORT") ?? "not set"}");
 
 // Auto-migrate database on startup (Production)
 if (app.Environment.IsProduction())

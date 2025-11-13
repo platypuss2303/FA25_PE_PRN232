@@ -21,9 +21,7 @@ COPY --from=publish /app/publish .
 
 # Render configuration
 ENV ASPNETCORE_ENVIRONMENT=Production
-ENV ASPNETCORE_HTTP_PORTS=""
-ENV ASPNETCORE_HTTPS_PORTS=""
 
-# Expose the port (Render will set PORT env var)
-EXPOSE $PORT
+# Expose port 10000 for Render
+EXPOSE 10000
 ENTRYPOINT ["dotnet", "PostManagementAPI.dll"]
