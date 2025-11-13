@@ -19,9 +19,11 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Render uses PORT environment variable
-ENV ASPNETCORE_URLS=http://+:${PORT:-5201}
+# Render configuration
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_HTTP_PORTS=""
+ENV ASPNETCORE_HTTPS_PORTS=""
 
-EXPOSE ${PORT:-5201}
+# Expose the port (Render will set PORT env var)
+EXPOSE $PORT
 ENTRYPOINT ["dotnet", "PostManagementAPI.dll"]
