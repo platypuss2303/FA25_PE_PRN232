@@ -2,8 +2,8 @@ services:
   - type: web
     name: postmanagement-api
     runtime: docker
-    repo: https://github.com/HuyNLH/PRN232-PE_TEST
-    branch: main
+    repo: https://github.com/platypuss2303/FA25_PE_PRN232
+    branch: master
     dockerfilePath: ./Dockerfile
     dockerContext: .
     envVars:
