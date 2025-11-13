@@ -1,21 +1,28 @@
-import { Link } from 'react-router-dom'
-import { Calendar, Edit, Trash2, Image as ImageIcon, Star } from 'lucide-react'
+import { Link } from "react-router-dom";
+import { Calendar, Edit, Trash2, Image as ImageIcon, Star } from "lucide-react";
 
 export default function MovieCard({ movie, onDelete }) {
   // Function to render star rating
   const renderStars = (rating) => {
-    if (!rating) return <span className="text-sm text-gray-400">No rating</span>;
-    
+    if (!rating)
+      return <span className="text-sm text-gray-400">No rating</span>;
+
     return (
       <div className="flex items-center gap-1">
         {[...Array(5)].map((_, index) => (
           <Star
             key={index}
             size={16}
-            className={index < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}
+            className={
+              index < rating
+                ? "fill-yellow-400 text-yellow-400"
+                : "text-gray-300"
+            }
           />
         ))}
-        <span className="ml-1 text-sm font-semibold text-gray-700">{rating}/5</span>
+        <span className="ml-1 text-sm font-semibold text-gray-700">
+          {rating}/5
+        </span>
       </div>
     );
   };
@@ -38,7 +45,7 @@ export default function MovieCard({ movie, onDelete }) {
             <ImageIcon className="w-20 h-20 text-gray-300" strokeWidth={1.5} />
           </div>
         )}
-        
+
         {/* Genre Badge */}
         {movie.genre && (
           <div className="absolute top-3 right-3">
@@ -54,11 +61,9 @@ export default function MovieCard({ movie, onDelete }) {
         <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1 group-hover:text-primary-600 transition-colors">
           {movie.title}
         </h3>
-        
+
         {/* Rating */}
-        <div className="mb-3">
-          {renderStars(movie.rating)}
-        </div>
+        <div className="mb-3">{renderStars(movie.rating)}</div>
 
         {/* Genre (if not already in badge) */}
         {movie.genre && (
@@ -71,11 +76,13 @@ export default function MovieCard({ movie, onDelete }) {
         {/* Date with Icon */}
         <div className="flex items-center gap-2 text-xs text-gray-500 mb-4 pb-4 border-b border-gray-100">
           <Calendar size={14} />
-          <span>{new Date(movie.createdAt).toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}</span>
+          <span>
+            {new Date(movie.createdAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </span>
         </div>
 
         {/* Action Buttons */}
@@ -97,5 +104,5 @@ export default function MovieCard({ movie, onDelete }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -25,7 +25,7 @@ export default function ListPage() {
   const [toast, setToast] = useState(null);
 
   // Extract unique genres from movies
-  const genres = [...new Set(movies.map(m => m.genre).filter(Boolean))];
+  const genres = [...new Set(movies.map((m) => m.genre).filter(Boolean))];
 
   const fetchMovies = async () => {
     try {
@@ -65,9 +65,7 @@ export default function ListPage() {
     return (
       <div className="flex flex-col items-center justify-center py-20">
         <Loader2 className="w-16 h-16 text-primary-600 animate-spin" />
-        <p className="mt-4 text-gray-600 font-medium">
-          Loading movies...
-        </p>
+        <p className="mt-4 text-gray-600 font-medium">Loading movies...</p>
       </div>
     );
   }
@@ -91,8 +89,12 @@ export default function ListPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-extrabold text-gray-900">Movie Collection</h1>
-          <p className="text-gray-600 mt-2">Browse, search, and manage your movies</p>
+          <h1 className="text-4xl font-extrabold text-gray-900">
+            Movie Collection
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Browse, search, and manage your movies
+          </p>
         </div>
         <Link
           to="/create"
@@ -176,7 +178,7 @@ export default function ListPage() {
             )}
             {sortBy && (
               <span className="bg-accent-100 text-accent-700 px-3 py-1 rounded-full text-sm font-medium">
-                Sort: {sortBy.replace('_', ' ')}
+                Sort: {sortBy.replace("_", " ")}
               </span>
             )}
             <button
@@ -197,7 +199,9 @@ export default function ListPage() {
       {movies.length === 0 ? (
         <div className="text-center py-16 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border-2 border-dashed border-gray-300">
           <Inbox className="mx-auto text-gray-400 mb-4" size={64} />
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">No Movies Found</h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">
+            No Movies Found
+          </h3>
           <p className="text-gray-600 mb-6">
             {searchTerm || selectedGenre
               ? "Try adjusting your search or filters"

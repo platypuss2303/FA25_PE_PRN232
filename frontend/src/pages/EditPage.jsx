@@ -1,52 +1,52 @@
-import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { movieService } from '../services/api'
-import MovieForm from '../components/MovieForm'
-import Toast from '../components/Toast'
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { movieService } from "../services/api";
+import MovieForm from "../components/MovieForm";
+import Toast from "../components/Toast";
 
 export default function EditPage() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const [movie, setMovie] = useState(null)
-  const [error, setError] = useState(null)
-  const [validationErrors, setValidationErrors] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [toast, setToast] = useState(null)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [movie, setMovie] = useState(null);
+  const [error, setError] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await movieService.getById(id)
-        setMovie(response.data)
+        const response = await movieService.getById(id);
+        setMovie(response.data);
       } catch (err) {
-        setError(err.message)
+        setError(err.message);
       }
-    }
-    fetchMovie()
-  }, [id])
+    };
+    fetchMovie();
+  }, [id]);
 
   const handleSubmit = async (formData) => {
     try {
-      setLoading(true)
-      setError(null)
-      setValidationErrors({})
-      await movieService.update(id, formData)
-      setToast({ message: 'Movie updated successfully!', type: 'success' })
+      setLoading(true);
+      setError(null);
+      setValidationErrors({});
+      await movieService.update(id, formData);
+      setToast({ message: "Movie updated successfully!", type: "success" });
       setTimeout(() => {
-        navigate('/')
-      }, 1000)
+        navigate("/");
+      }, 1000);
     } catch (err) {
       if (err.response?.data?.errors) {
         // Backend validation errors
-        setValidationErrors(err.response.data.errors)
-        setError('Please fix the validation errors below')
+        setValidationErrors(err.response.data.errors);
+        setError("Please fix the validation errors below");
       } else {
-        setError(err.response?.data?.message || err.message)
+        setError(err.response?.data?.message || err.message);
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   if (!movie) {
     return (
@@ -54,7 +54,7 @@ export default function EditPage() {
         <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
         <p className="mt-4 text-gray-600 font-medium">Loading movie data...</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -69,7 +69,7 @@ export default function EditPage() {
         </h1>
         <p className="text-gray-600">Update movie details</p>
       </div>
-      
+
       {error && (
         <div className="mb-6 bg-gradient-to-r from-danger-50 to-danger-100 border-l-4 border-danger-500 text-danger-800 px-6 py-4 rounded-xl shadow-soft animate-fade-in">
           <div className="flex items-center gap-3">
@@ -82,9 +82,9 @@ export default function EditPage() {
         </div>
       )}
 
-      <MovieForm 
-        initialData={movie} 
-        onSubmit={handleSubmit} 
+      <MovieForm
+        initialData={movie}
+        onSubmit={handleSubmit}
         loading={loading}
         isEdit={true}
         validationErrors={validationErrors}
@@ -98,5 +98,5 @@ export default function EditPage() {
         />
       )}
     </div>
-  )
+  );
 }

@@ -1,38 +1,38 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { movieService } from '../services/api'
-import MovieForm from '../components/MovieForm'
-import Toast from '../components/Toast'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { movieService } from "../services/api";
+import MovieForm from "../components/MovieForm";
+import Toast from "../components/Toast";
 
 export default function CreatePage() {
-  const navigate = useNavigate()
-  const [error, setError] = useState(null)
-  const [validationErrors, setValidationErrors] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [toast, setToast] = useState(null)
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState(null);
 
   const handleSubmit = async (formData) => {
     try {
-      setLoading(true)
-      setError(null)
-      setValidationErrors({})
-      await movieService.create(formData)
-      setToast({ message: 'Movie created successfully!', type: 'success' })
+      setLoading(true);
+      setError(null);
+      setValidationErrors({});
+      await movieService.create(formData);
+      setToast({ message: "Movie created successfully!", type: "success" });
       setTimeout(() => {
-        navigate('/')
-      }, 1000)
+        navigate("/");
+      }, 1000);
     } catch (err) {
       if (err.response?.data?.errors) {
         // Backend validation errors
-        setValidationErrors(err.response.data.errors)
-        setError('Please fix the validation errors below')
+        setValidationErrors(err.response.data.errors);
+        setError("Please fix the validation errors below");
       } else {
-        setError(err.response?.data?.message || err.message)
+        setError(err.response?.data?.message || err.message);
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -46,7 +46,7 @@ export default function CreatePage() {
         </h1>
         <p className="text-gray-600">Add a movie to your collection</p>
       </div>
-      
+
       {error && (
         <div className="mb-6 bg-gradient-to-r from-danger-50 to-danger-100 border-l-4 border-danger-500 text-danger-800 px-6 py-4 rounded-xl shadow-soft animate-fade-in">
           <div className="flex items-center gap-3">
@@ -59,8 +59,8 @@ export default function CreatePage() {
         </div>
       )}
 
-      <MovieForm 
-        onSubmit={handleSubmit} 
+      <MovieForm
+        onSubmit={handleSubmit}
         loading={loading}
         validationErrors={validationErrors}
       />
@@ -73,5 +73,5 @@ export default function CreatePage() {
         />
       )}
     </div>
-  )
+  );
 }
