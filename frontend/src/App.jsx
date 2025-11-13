@@ -74,16 +74,6 @@ function App() {
             </Routes>
           </ErrorBoundary>
         </main>
-
-        {/* Footer */}
-        <footer className="mt-20 py-8 bg-white/50 backdrop-blur-sm border-t border-gray-200/50">
-          <div className="max-w-7xl mx-auto px-4 text-center">
-            <p className="text-gray-600 text-sm">
-              Made with <span className="text-red-500">♥</span> using React +
-              ASP.NET Core
-            </p>
-          </div>
-        </footer>
       </div>
     </Router>
   );
