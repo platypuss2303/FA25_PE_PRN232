@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: postmanagement-api
+    runtime: docker
+    repo: https://github.com/HuyNLH/PRN232-PE_TEST
+    branch: main
+    dockerfilePath: ./backend/PostManagementAPI/Dockerfile
+    dockerContext: ./backend/PostManagementAPI
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: PORT
+        value: 10000
+      - key: ASPNETCORE_URLS
+        value: http://+:10000
+      - key: ConnectionStrings__Default
+        value: Host=dpg-d4airlhr0fns73eb1lo0-a.oregon-postgres.render.com;Database=postmanagementdb;Username=postmanagementdb_user;Password=cNiX1r5xHZjxODYnoq6ijrYkjx20i93h;SSL Mode=Require;Trust Server Certificate=true
+      - key: Cloudinary__CloudName
+        value: dnaowbur2
+      - key: Cloudinary__ApiKey
+        value: 867595499819718
+      - key: Cloudinary__ApiSecret
+        value: qcla8wUPwE0oS_RSTLjc2pdDAyc
+      - key: Cloudinary__Enabled
+        value: true
